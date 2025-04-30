@@ -3,10 +3,14 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addTodoList } from "../../redux/todoList/todoListOp";
 
+interface FormValues {
+  title: string;
+}
+
 const ListForm = () => {
   const dispatch = useDispatch();
 
-  const initialValues = {
+  const initialValues: FormValues = {
     title: "", 
   };
 
@@ -16,10 +20,8 @@ const ListForm = () => {
       .required("Обов’язкове поле"),
   });
 
-  const handleSubmit = (values, actions) => {
-    console.log("111");
+  const handleSubmit = (values: FormValues, actions: any) => {
     dispatch(addTodoList(values));  
-
     actions.resetForm();
   };
 

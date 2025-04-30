@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToDoList } from './redux/operations'; // Імпорт вашої операції для додавання списку завдань
+import { addTodoList } from '../../redux/todoList/todoListOp'; 
 
 const CreateToDoList = () => {
   const [listName, setListName] = useState('');
@@ -10,7 +10,7 @@ const CreateToDoList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (listName.trim()) {
-      dispatch(addToDoList(listName));
+      dispatch(addTodoList(listName));
       setListName(''); 
     }
   };

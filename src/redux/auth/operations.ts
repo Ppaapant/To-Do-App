@@ -1,9 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AuthCredentials, AuthPayload, RegisterCredentials } from "./types";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/config";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
 
-// Реєстрація користувача
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<
+  AuthPayload,
+  RegisterCredentials,
+  { rejectValue: string }
+>(
   "auth/register",
   async ({ email, password, name }, thunkAPI) => {
     try {
@@ -16,63 +20,83 @@ export const register = createAsyncThunk(
         token: await user.getIdToken(),
       };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
 );
 
-// Логін користувача
-export const logIn = createAsyncThunk(
+
+export const logIn = createAsyncThunk<
+  AuthPayload,
+  AuthCredentials,
+  { rejectValue: string }
+>(
   "auth/login",
   async ({ email, password }, thunkAPI) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       return {
         user: { name: user.displayName, email: user.email },
         token: await user.getIdToken(),
       };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
 );
 
-// Вихід користувача
-export const logOut = createAsyncThunk(
+
+export const logOut = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: string }
+>(
   "auth/logout",
   async (_, thunkAPI) => {
     try {
       await signOut(auth);
-      return;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
 );
 
-// Оновлення користувача (реалізація refresh)
-export const refreshUser = createAsyncThunk(
+
+export const refreshUser = createAsyncThunk<
+  AuthPayload,
+  void,
+  { rejectValue: string }
+>(
   "auth/refresh",
   async (_, thunkAPI) => {
     try {
-      return await new Promise((resolve, reject) => {
+      return await new Promise<AuthPayload>((resolve, reject) => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-          unsubscribe(); 
+          unsubscribe();
 
           if (user) {
-            const token = await user.getIdToken(); 
+            const token = await user.getIdToken();
             resolve({
               user: { name: user.displayName, email: user.email },
               token,
             });
           } else {
-            reject('Unable to fetch user');
+            reject("Unable to fetch user");
           }
         });
       });
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
 );

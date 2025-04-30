@@ -7,7 +7,7 @@ import css from "./Contact.module.css";
 const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
   const dispatch = useDispatch();
 
-  // Ініціалізація значень форми в залежності від режиму (створення або редагування)
+  
   const initialValues = {
     title: task ? task.title : "",
     description: task ? task.description : "",
@@ -30,7 +30,7 @@ const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
       dispatch(addContact(values));
     }
     actions.resetForm();
-    setIsEditMode(false);  // Після редагування змінюємо режим
+    setIsEditMode(false);  
   };
 
   return (

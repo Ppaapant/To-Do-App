@@ -7,11 +7,14 @@ import { selectLoading, selectError } from "../../redux/todoList/selectors";
 import css from "./ToDoListPage.module.css";
 import TaskForm from "../../components/ToDoForm/ToDoForm";
 import ToDoList from "../../components/TodoList/ToDoList";
+import { RootState } from "../../redux/store";
 
 const ToDoListPage = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  
+  
+  const loading = useSelector((state: RootState) => selectLoading(state));
+  const error = useSelector((state: RootState) => selectError(state));
 
   useEffect(() => {
     dispatch(fetchTodoLists());
@@ -20,10 +23,14 @@ const ToDoListPage = () => {
   return (
     <div className={css.container}>
       <h1>To-Do Lists</h1>
-      <TaskForm/>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error loading lists</p>}
-      <ToDoList />
+      <TaskForm />
+
+      {loading && <p>Loading your to-do lists...</p>}
+
+      {error && <p className={css.error}>Error loading lists: {error}</p>}
+
+      
+      {!loading && !error && <ToDoList />}
     </div>
   );
 };
