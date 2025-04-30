@@ -1,0 +1,209 @@
+/* Згладжування шрифтів і основні стилі */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Загальний фон і стилі для тіла сторінки */
+body {
+  background-color: #f4f7fb;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Стилі для заголовків */
+h1, h2, h3 {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Контейнер для основного контенту */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Гнучка сітка для контейнерів */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Стили для заголовку (якщо є в хедері) */
+header {
+  background-color: #fff;
+  padding: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стилі для навігації */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  padding: 10px 15px;
+  margin: 0 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #f0f0f0;
+  color: #007BFF;
+}
+
+/* Стилі для кнопок */
+button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Модальні вікна */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* за замовчуванням приховано */
+}
+
+.modal.open {
+  display: block;
+}
+
+/* Сітка для карток продуктів або списків */
+.product-list,
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product-card, .contact-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover, .contact-card:hover {
+  transform: scale(1.05);
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media screen and (max-width: 768px) {
+  header {
+      padding: 10px 0;
+  }
+
+  nav {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  nav a {
+      margin: 10px 0;
+  }
+
+  .product-list,
+  .contact-list {
+      grid-template-columns: 1fr;
+  }
+
+  .container {
+      padding: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+      font-size: 24px;
+  }
+
+  button {
+      padding: 8px 15px;
+      font-size: 14px;
+  }
+}
+
+/* Стилі для форми */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, select, textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+/* Повідомлення про помилки */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+/* Стилі для списку контактів */
+.contact-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.contact-list-item button {
+  background-color: #FF4D4D;
+  padding: 5px 10px;
+}
+
+.contact-list-item button:hover {
+  background-color: #d43f3f;
+}
+

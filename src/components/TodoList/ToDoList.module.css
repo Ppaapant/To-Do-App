@@ -1,0 +1,26 @@
+.listContainer {
+    margin-top: 20px;
+  }
+  
+  .listItem {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .editButton, .deleteButton {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .editButton {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .deleteButton {
+    background-color: #f44336;
+    color: white;
+  }

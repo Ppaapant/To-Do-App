@@ -1,0 +1,12 @@
+.nav {
+    display:flex;
+    gap:20px;
+}
+
+.text{
+    color:black;
+}
+
+.text:hover{
+    opacity: 70%;
+}
