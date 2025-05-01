@@ -3,7 +3,8 @@ import { deleteTodoList } from "../../redux/todoList/todoListOp";
 import { selectTodoLists, selectLoading, selectError } from "../../redux/todoList/selectors";
 import { useState } from "react"; 
 import List from "../ToDoItem/ToDoItem";
-import ToDoEditForm from "../EditToDoList/EditToDoList"
+import ToDoEditForm from "../EditToDoList/EditToDoList";
+import { AppDispatch } from "../../redux/store";
 
 interface TodoList {
   id: string;
@@ -11,7 +12,7 @@ interface TodoList {
 }
 
 const ListList = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   
   
   const lists = useSelector(selectTodoLists) as TodoList[]; 
@@ -30,7 +31,7 @@ const ListList = () => {
       {loading && <p>Loading...</p>}
       {error && <p>Error loading lists</p>}
       {editId ? (
-        <ToDoEditForm editId={editId} setEditId={setEditId} />
+        <ToDoEditForm editId={editId} setEditId={setEditId} currentName={""} />
       ) : (
         <ul>
           {lists.length > 0 ? (

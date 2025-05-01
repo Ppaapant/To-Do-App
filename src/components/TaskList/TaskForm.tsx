@@ -2,12 +2,25 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addContact, updateContact } from "../../redux/contacts/operations"; 
+
 import css from "./Contact.module.css";
+import { AppDispatch } from "../../redux/store";
 
-const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
-  const dispatch = useDispatch();
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+}
 
-  
+interface ContactFormProps {
+  task?: Task; 
+  isEditMode: boolean;
+  setIsEditMode: (value: boolean) => void;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ task, isEditMode, setIsEditMode }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const initialValues = {
     title: task ? task.title : "",
     description: task ? task.description : "",
@@ -23,14 +36,14 @@ const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
       .required("Обов’язкове поле"),
   });
 
-  const handleSubmit = (values, actions) => {
-    if (isEditMode) {
+  const handleSubmit = (values: typeof initialValues, actions: any) => {
+    if (isEditMode && task) {
       dispatch(updateContact({ ...values, id: task.id }));
     } else {
       dispatch(addContact(values));
     }
     actions.resetForm();
-    setIsEditMode(false);  
+    setIsEditMode(false);
   };
 
   return (
@@ -38,6 +51,7 @@ const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize 
     >
       <Form>
         <label className={css.lab}>
@@ -52,7 +66,9 @@ const ContactForm = ({ task, isEditMode, setIsEditMode }) => {
           <ErrorMessage name="description" component="div" />
         </label>
 
-        <button type="submit">{isEditMode ? "Update Task" : "Add Task"}</button>
+        <button type="submit">
+          {isEditMode ? "Update Task" : "Add Task"}
+        </button>
       </Form>
     </Formik>
   );

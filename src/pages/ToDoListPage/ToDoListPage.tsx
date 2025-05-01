@@ -7,10 +7,10 @@ import { selectLoading, selectError } from "../../redux/todoList/selectors";
 import css from "./ToDoListPage.module.css";
 import TaskForm from "../../components/ToDoForm/ToDoForm";
 import ToDoList from "../../components/TodoList/ToDoList";
-import { RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
 
 const ToDoListPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   
   
   const loading = useSelector((state: RootState) => selectLoading(state));

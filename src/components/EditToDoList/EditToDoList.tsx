@@ -3,21 +3,29 @@ import { useDispatch } from "react-redux";
 
 import css from './ToDoEditForm.module.css';
 import { updateTodoList } from "../../redux/todoList/todoListOp";
+import { AppDispatch } from "../../redux/store";
 
-const ToDoEditForm = ({ editId, setEditId }) => {
-  const [editName, setEditName] = useState('');
-  const dispatch = useDispatch();
+interface ToDoEditFormProps {
+  editId: string | null;
+  setEditId: React.Dispatch<React.SetStateAction<string | null>>;
+  currentName: string;
+}
+
+const ToDoEditForm: React.FC<ToDoEditFormProps> = ({ editId, setEditId, currentName }) => {
+  const [editName, setEditName] = useState<string>(currentName);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    setEditName('Current List Name'); 
-  }, [editId]);
+    setEditName(currentName); // Оновлення при зміні currentName
+  }, [currentName]);
 
-  const handleSaveEdit = (e) => {
+  const handleSaveEdit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (editName.trim()) {
+
+    if (editName.trim() && editId) { 
       dispatch(updateTodoList({ id: editId, updatedName: editName }));
-      setEditId(null);
-      setEditName('');
+      setEditId(null); 
+      setEditName(''); 
     }
   };
 
@@ -36,3 +44,4 @@ const ToDoEditForm = ({ editId, setEditId }) => {
 };
 
 export default ToDoEditForm;
+

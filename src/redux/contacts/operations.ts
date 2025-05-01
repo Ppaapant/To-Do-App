@@ -3,7 +3,7 @@ import { db } from '../../firebase/config';
 import { collection, getDocs, addDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 
-export interface Contact {
+export type Contact {
   id: string;
   title: string;
   description: string;

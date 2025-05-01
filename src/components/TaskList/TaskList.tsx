@@ -1,29 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteContact } from "../../redux/contacts/operations";
+import { Contact, deleteContact } from "../../redux/contacts/operations";
 import { selectFilteredContacts } from "../../redux/contacts/selectors";
 import Task from "./Task";
 import ContactForm from "./TaskForm";
 import { useState } from "react";
+import { AppDispatch } from "../../redux/store";
+import { useAppSelector } from "../../redux/hooks";
 
 const ContactList = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectFilteredContacts);
-  const [editTask, setEditTask] = useState(null);  
-  const [isEditMode, setIsEditMode] = useState(false);  
+  const dispatch = useDispatch<AppDispatch>();
+  const contacts = useAppSelector(selectFilteredContacts);
 
-  const handleDelete = (id) => {
-    dispatch(deleteContact(id));  
+  const [editTask, setEditTask] = useState<Contact | null>(null);  
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);  
+
+  const handleDelete = (id: string): void => {
+    dispatch(deleteContact(id));
   };
 
-  const handleEdit = (task) => {
+  const handleEdit = (task: Contact): void => {
     setEditTask(task);
-    setIsEditMode(true);  
+    setIsEditMode(true);
   };
 
   return (
     <div>
-      {isEditMode ? (
-        <ContactForm task={editTask} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+      {isEditMode && editTask ? (
+        <ContactForm
+          task={editTask}
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+        />
       ) : (
         <ul>
           {contacts.map(({ id, title, description }) => (
@@ -34,7 +41,9 @@ const ContactList = () => {
                 description={description}
                 onDelete={handleDelete}
               />
-              <button onClick={() => handleEdit({ id, title, description })}>Edit</button>
+              <button onClick={() => handleEdit({ id, title, description })}>
+                Edit
+              </button>
             </li>
           ))}
         </ul>

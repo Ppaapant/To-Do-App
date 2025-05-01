@@ -1,13 +1,20 @@
 import { useDispatch } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { register } from "../../redux/auth/operations";
 import css from "./RegistrationForm.module.css";
+import { AppDispatch } from "../../redux/store";
+
+interface RegistrationFormValues {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export default function RegistrationForm() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues = {
+  const initialValues: RegistrationFormValues = {
     name: "",
     email: "",
     password: "",
@@ -21,7 +28,10 @@ export default function RegistrationForm() {
       .required("Введіть пароль"),
   });
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (
+    values: RegistrationFormValues,
+    actions: FormikHelpers<RegistrationFormValues>
+  ) => {
     try {
       await dispatch(register(values)).unwrap();
       actions.resetForm();

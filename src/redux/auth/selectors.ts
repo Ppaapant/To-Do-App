@@ -1,5 +1,10 @@
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
+import { RootState } from "../store"; 
 
-export const selectUser = (state) => state.auth.user;
 
-export const selectIsRefreshing = (state) => state.auth.isRefreshing;
+export const selectIsLoggedIn = (state: RootState): boolean => !!state.auth.user;
+
+
+export const selectUser = (state: RootState) => state.auth.user;
+
+
+export const selectIsRefreshing = (state: RootState): boolean => state.auth.loading;

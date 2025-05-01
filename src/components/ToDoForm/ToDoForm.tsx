@@ -2,13 +2,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addTodoList } from "../../redux/todoList/todoListOp";
+import { AppDispatch } from "../../redux/store";
 
 interface FormValues {
   title: string;
 }
 
 const ListForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const initialValues: FormValues = {
     title: "", 

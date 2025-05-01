@@ -1,12 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteToDoList } from './redux/operations'; // Операція для видалення списку
+import { deleteTodoList } from '../../redux/todoList/todoListOp'; 
+import { AppDispatch } from '../../redux/store';
 
-const DeleteToDoList = ({ listId }) => {
-  const dispatch = useDispatch();
+interface DeleteToDoListProps {
+  listId: string; 
+}
+
+const DeleteToDoList: React.FC<DeleteToDoListProps> = ({ listId }) => {
+   const dispatch = useDispatch<AppDispatch>();
 
   const handleDelete = () => {
-    dispatch(deleteToDoList(listId));
+    dispatch(deleteTodoList(listId)); 
   };
 
   return (
