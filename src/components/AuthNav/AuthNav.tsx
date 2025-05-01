@@ -1,15 +1,21 @@
 import { NavLink } from "react-router-dom";
-import css from "./AuthNav.module.css";
+
 
 export default function AuthNav() {
     return (
-     <div className={css.div}>
-        <NavLink to="/register" className={css.text}> 
-            Register
-        </NavLink>
-        <NavLink to="/login" className={css.text}>
-            Log In
-        </NavLink>
-     </div>
+        <div className="flex gap-5">
+            <NavLink 
+                to="/register" 
+                className="text-black hover:opacity-70"
+            > 
+                Register
+            </NavLink>
+            <NavLink 
+                to="/login" 
+                className="text-black hover:opacity-70"
+            >
+                Log In
+            </NavLink>
+        </div>
     );
 }

@@ -1,19 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addContact, deleteContact, fetchContacts } from "./operations";
+import { addContact, deleteContact, fetchContacts, updateContact } from "./operations";
 import { logOut } from "../auth/operations";
-
-export interface Contact {
-  id: string;
-  name: string;
-  description: string;
-}
+import { Contact, ContactsState } from "./types";
 
 
-interface ContactsState {
-  items: Contact[];
-  loading: boolean;
-  error: string | null;
-}
+
+
 
 const initialState: ContactsState = {
   items: [],
@@ -67,6 +59,15 @@ const contactsSlice = createSlice({
         state.items = [];
         state.loading = false;
         state.error = null;
+      })
+      
+      .addCase(updateContact.fulfilled, (state, action: PayloadAction<Contact>) => {
+        state.loading = false;
+       
+        const index = state.items.findIndex(contact => contact.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
       });
   },
 });

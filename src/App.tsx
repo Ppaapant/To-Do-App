@@ -1,11 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import { JSX, Suspense, lazy, useEffect } from 'react';
-import Layout from './components/Layout/Layout';
+import Layout from './UI/Layout/Layout';
 import { refreshUser } from './redux/auth/operations';
 import { selectIsRefreshing } from './redux/auth/selectors';
 import RestrictedRoute from './components/RestrictedRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
+import './index.css';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage'));

@@ -2,16 +2,22 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodoList } from '../../redux/todoList/todoListOp'; 
+import { AppDispatch } from '../../redux/store';
 
-const CreateToDoList = () => {
-  const [listName, setListName] = useState('');
-  const dispatch = useDispatch();
+interface NewTodoList {
+  title: string; 
+}
 
-  const handleSubmit = (e) => {
+const CreateToDoList: React.FC = () => {
+  const [listName, setListName] = useState<string>(''); 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (listName.trim()) {
-      dispatch(addTodoList(listName));
-      setListName(''); 
+      const newTodoList: NewTodoList = { title: listName }; 
+      dispatch(addTodoList(newTodoList)); 
+      setListName('');
     }
   };
 

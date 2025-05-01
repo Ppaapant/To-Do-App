@@ -5,26 +5,32 @@ import { useState } from "react";
 import List from "../ToDoItem/ToDoItem";
 import ToDoEditForm from "../EditToDoList/EditToDoList";
 import { AppDispatch } from "../../redux/store";
+import { selectUser } from "../../redux/auth/selectors";
 
 interface TodoList {
   id: string;
   title: string;
+  
 }
 
 const ListList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  
-  
   const lists = useSelector(selectTodoLists) as TodoList[]; 
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
+  const user = useSelector(selectUser);
 
- 
   const [editId, setEditId] = useState<string | null>(null); 
 
   const handleDelete = (id: string) => {
-    dispatch(deleteTodoList(id));
+   
+    if (user?.role === "admin") {
+      dispatch(deleteTodoList(id)); 
+    }
   };
+
+ 
+  const isAdmin = user?.role === "admin";
 
   return (
     <div>
@@ -42,6 +48,7 @@ const ListList = () => {
                 title={title}
                 onDelete={handleDelete}
                 onEdit={setEditId}
+                isAdmin={isAdmin} 
               />
             ))
           ) : (

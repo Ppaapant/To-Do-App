@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AuthCredentials, AuthPayload, RegisterCredentials } from "./types";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
+import { doc, getDoc } from "@firebase/firestore";
 
 export const register = createAsyncThunk<
-  AuthPayload,
-  RegisterCredentials,
-  { rejectValue: string }
+  AuthPayload,  
+  RegisterCredentials,  
+  { rejectValue: string }  
 >(
   "auth/register",
   async ({ email, password, name }, thunkAPI) => {
@@ -16,7 +17,7 @@ export const register = createAsyncThunk<
 
       const user = userCredential.user;
       return {
-        user: { name: user.displayName, email: user.email },
+        user: { name: user.displayName, email: user.email, role: "admin" }, 
         token: await user.getIdToken(),
       };
     } catch (error) {
@@ -27,7 +28,7 @@ export const register = createAsyncThunk<
   }
 );
 
-
+// Логін користувача
 export const logIn = createAsyncThunk<
   AuthPayload,
   AuthCredentials,
@@ -40,7 +41,7 @@ export const logIn = createAsyncThunk<
       const user = userCredential.user;
 
       return {
-        user: { name: user.displayName, email: user.email },
+        user: { name: user.displayName, email: user.email, role: "viewer" }, 
         token: await user.getIdToken(),
       };
     } catch (error) {
@@ -51,7 +52,7 @@ export const logIn = createAsyncThunk<
   }
 );
 
-
+// Логаут
 export const logOut = createAsyncThunk<
   void,
   void,
@@ -84,8 +85,17 @@ export const refreshUser = createAsyncThunk<
 
           if (user) {
             const token = await user.getIdToken();
+
+            
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            const userData = userDoc.data();
+
             resolve({
-              user: { name: user.displayName, email: user.email },
+              user: {
+                name: user.displayName, 
+                email: user.email,
+                role: userData?.role || "viewer",  
+              },
               token,
             });
           } else {

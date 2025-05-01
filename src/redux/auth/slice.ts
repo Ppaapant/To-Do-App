@@ -23,9 +23,9 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, action: any) => {  
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message ?? 'Unknown error'; 
       })
       .addCase(logIn.pending, (state) => {
         state.loading = true;
@@ -35,9 +35,9 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(logIn.rejected, (state, action) => {
+      .addCase(logIn.rejected, (state, action: any) => {  
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message ?? 'Unknown error';  
       })
       .addCase(logOut.fulfilled, (state) => {
         state.user = null;
@@ -53,9 +53,9 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(refreshUser.rejected, (state, action) => {
+      .addCase(refreshUser.rejected, (state, action: any) => {  
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message ?? 'Unknown error';  
       });
   },
 });

@@ -1,9 +1,8 @@
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import * as Yup from "yup";
 import { register } from "../../redux/auth/operations";
-import css from "./RegistrationForm.module.css";
 import { AppDispatch } from "../../redux/store";
+import { registrationValidationSchema } from "../../Validation/validationSchema";
 
 interface RegistrationFormValues {
   name: string;
@@ -20,14 +19,6 @@ export default function RegistrationForm() {
     password: "",
   };
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Введіть ім’я"),
-    email: Yup.string().email("Некоректний email").required("Введіть email"),
-    password: Yup.string()
-      .min(6, "Пароль має містити щонайменше 6 символів")
-      .required("Введіть пароль"),
-  });
-
   const handleSubmit = async (
     values: RegistrationFormValues,
     actions: FormikHelpers<RegistrationFormValues>
@@ -43,29 +34,58 @@ export default function RegistrationForm() {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={registrationValidationSchema}
       onSubmit={handleSubmit}
     >
-      <Form className={css.form} autoComplete="off">
-        <label className={css.label}>
+      <Form className="flex flex-col gap-5" autoComplete="off">
+        <label className="flex flex-col">
           Username:
-          <Field type="text" name="name" className={css.input} />
-          <ErrorMessage name="name" component="div" className={css.error} />
+          <Field
+            type="text"
+            name="name"
+            className="mt-1 p-2 border rounded"
+          />
+          <ErrorMessage
+            name="name"
+            component="div"
+            className="text-red-500 text-sm"
+          />
         </label>
 
-        <label className={css.label}>
+        <label className="flex flex-col">
           Email:
-          <Field type="email" name="email" className={css.input} />
-          <ErrorMessage name="email" component="div" className={css.error} />
+          <Field
+            type="email"
+            name="email"
+            className="mt-1 p-2 border rounded"
+          />
+          <ErrorMessage
+            name="email"
+            component="div"
+            className="text-red-500 text-sm"
+          />
         </label>
 
-        <label className={css.label}>
+        <label className="flex flex-col">
           Password:
-          <Field type="password" name="password" className={css.input} />
-          <ErrorMessage name="password" component="div" className={css.error} />
+          <Field
+            type="password"
+            name="password"
+            className="mt-1 p-2 border rounded"
+          />
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500 text-sm"
+          />
         </label>
 
-        <button type="submit">Register</button>
+        <button
+          type="submit"
+          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Register
+        </button>
       </Form>
     </Formik>
   );

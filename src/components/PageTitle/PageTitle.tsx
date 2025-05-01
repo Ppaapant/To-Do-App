@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import css from "./PageTitle.module.css";
+
 
 interface PageTitleProps {
   children: ReactNode;
 }
 
 export default function PageTitle({ children }: PageTitleProps) {
-  return <h1 className={css.heading}>{children}</h1>;
+  return <h1 className="pt-5 text-4xl">{children}</h1>;
 }

@@ -1,10 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addContact, updateContact } from "../../redux/contacts/operations"; 
-
-import css from "./Contact.module.css";
 import { AppDispatch } from "../../redux/store";
+import { taskValidationSchema } from "../../Validation/validationSchema";
 
 interface Task {
   id: string;
@@ -26,47 +24,55 @@ const ContactForm: React.FC<ContactFormProps> = ({ task, isEditMode, setIsEditMo
     description: task ? task.description : "",
   };
 
-  const validationSchema = Yup.object({
-    title: Yup.string()
-      .min(3, "Мінімум 3 символи")
-      .max(50, "Максимум 50 символів")
-      .required("Обов’язкове поле"),
-    description: Yup.string()
-      .max(100, "Максимум 100 символів")
-      .required("Обов’язкове поле"),
-  });
-
   const handleSubmit = (values: typeof initialValues, actions: any) => {
     if (isEditMode && task) {
-      dispatch(updateContact({ ...values, id: task.id }));
+      dispatch(updateContact({
+        ...values,
+        id: task.id,
+        completed: false 
+      }));
     } else {
-      dispatch(addContact(values));
+      dispatch(addContact({
+        ...values,
+        completed: false 
+      }));
     }
+  
     actions.resetForm();
     setIsEditMode(false);
   };
-
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={taskValidationSchema}
       onSubmit={handleSubmit}
-      enableReinitialize 
+      enableReinitialize
     >
-      <Form>
-        <label className={css.lab}>
-          Title
-          <Field type="text" name="title" />
-          <ErrorMessage name="title" component="div" />
-        </label>
+      <Form className="space-y-6 bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+        <div className="flex flex-col">
+          <label className="text-lg font-semibold text-gray-700">Title</label>
+          <Field 
+            type="text" 
+            name="title" 
+            className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          />
+          <ErrorMessage name="title" component="div" className="text-red-500 text-sm mt-1" />
+        </div>
 
-        <label className={css.lab}>
-          Description
-          <Field type="text" name="description" />
-          <ErrorMessage name="description" component="div" />
-        </label>
+        <div className="flex flex-col">
+          <label className="text-lg font-semibold text-gray-700">Description</label>
+          <Field 
+            type="text" 
+            name="description" 
+            className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          />
+          <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
+        </div>
 
-        <button type="submit">
+        <button 
+          type="submit" 
+          className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+        >
           {isEditMode ? "Update Task" : "Add Task"}
         </button>
       </Form>

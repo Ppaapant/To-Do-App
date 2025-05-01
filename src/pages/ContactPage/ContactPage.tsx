@@ -5,11 +5,10 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { fetchContacts } from "../../redux/contacts/operations";
 import { selectError, selectLoading } from "../../redux/contacts/selectors";
-import css from "./ContactPage.module.css";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/store";
 
-type RouteParams {
+type RouteParams = {
   listId: string;
 }
 
@@ -23,12 +22,20 @@ const ContactPage = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  
+
   return (
-    <div className={css.container}>
-      <h1>Task Book for {listId}</h1>
-      <TaskForm />
-      {loading && <p>Loading..</p>}
-      {error && <p>Error 404</p>}
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-4">Task Book for {listId}</h1>
+      <TaskForm isEditMode={false} setIsEditMode={function (value: boolean): void {
+        throw new Error("Function not implemented.");
+      } } />
+      
+      {loading && <p className="text-gray-500">Loading...</p>}
+      {error && <p className="text-red-500">Error 404</p>}
+      
       <TaskList />
     </div>
   );
